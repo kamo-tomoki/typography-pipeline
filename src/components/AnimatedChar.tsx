@@ -15,7 +15,18 @@ function AnimatedChar({ char, pathData }: AnimatedCharProps) {
     }
   }, [pathData])
 
-  const displayChar = char === ' ' ? '\u00A0' : char
+  const displayChar = (() => {
+    switch (char) {
+      case ' ':
+        return '␣'  // スペース記号
+      case '\n':
+        return '⏎'  // 改行記号
+      case '⌫':
+        return '⌫'  // バックスペース記号（そのまま）
+      default:
+        return char
+    }
+  })()
 
   return (
     <div ref={charRef} className={styles.animatedChar}>

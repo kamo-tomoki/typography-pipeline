@@ -50,7 +50,19 @@ function App() {
   }, [])
 
   const handleBackspace = useCallback(() => {
-    setOutputText(prev => prev.slice(0, -1))
+    // バックスペースのアニメーションを表示
+    const backspaceChar: AnimatingChar = {
+      id: `backspace-${Date.now()}-${Math.random()}`,
+      char: '⌫',
+      timestamp: Date.now()
+    }
+    setAnimatingChars(prev => [...prev, backspaceChar])
+    
+    // アニメーション後にバックスペース記号を削除し、テキストからも削除
+    setTimeout(() => {
+      setAnimatingChars(prev => prev.filter(c => c.id !== backspaceChar.id))
+      setOutputText(prev => prev.slice(0, -1))
+    }, 1500)
   }, [])
 
   const handleEnter = useCallback(() => {
